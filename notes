@@ -7,4 +7,10 @@ pip install -r req.txt
 #teste python
 print("Hello, World!")
 
+flask run
+
 sqlite3 blog.db < esquema.sql
+
+git add .
+git commit -m "arquivos do projeto"
+git push
