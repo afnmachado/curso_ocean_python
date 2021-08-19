@@ -1,0 +1,10 @@
+pip install flask python-dotenv pyngrok
+
+pip freeze > req.txt
+
+pip install -r req.txt
+
+#teste python
+print("Hello, World!")
+
+sqlite3 blog.db < esquema.sql
