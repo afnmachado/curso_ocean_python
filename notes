@@ -1,3 +1,5 @@
+http://turing.com.br/material/flask/tutorial/index.html
+
 pip install flask python-dotenv pyngrok
 
 pip freeze > req.txt
