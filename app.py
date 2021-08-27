@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, request, session, g, redirect, abort, render_template, flash
+from flask import Flask, request, url_for, session, g, redirect, abort, render_template, flash
 
 # configuração
 DATABASE = "blog.db"
@@ -35,13 +35,32 @@ def exibir_entradas():
 #def pagina_inicial():
 #    return "Hello World"
 
-@app.route('/inserir')
+@app.route('/inserir', methods=['POST'])
 def inserir_entrada():
-    if not session.get('logado')
+    if not session.get('logado'):
         abort(401)
     sql = "INSERT INTO entradas(titulo, texto) VALUES (?,?)"
-    d.bd.execute(sql, request.form['campoTitulo'], request.form['campoTexto'],)
+    g.bd.execute(sql, (request.form['campoTitulo'], request.form['campoTexto']))
+    g.bd.commit()
     #sql = "INSERT INTO entradas(titulo, texto) VALUES ('Segundo Post','Esse é o segundo post')"
     #g.bd.execute(sql)
     #g.bd.commit()
     return redirect('/entradas')
+
+@app.route('/logout')
+def logout():
+    session.pop('logado', None)
+    return redirect(url_for('exibir_entradas'))
+
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    erro = None
+    if request.method == "POST":
+        if request.form['campoUsuario'] != 'admin' \
+            and request.form['campoSenha'] != 'admin':
+            erro = "Senha ou Usuário Inválidos"
+        else:
+            session['logado'] = True
+            return redirect(url_for('exibir_entradas'))
+
+    return render_template('login.html', erro=erro)

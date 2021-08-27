@@ -16,3 +16,5 @@ sqlite3 blog.db < esquema.sql
 git add .
 git commit -m "arquivos do projeto"
 git push
+
+ngrok http 5000
