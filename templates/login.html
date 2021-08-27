@@ -1,7 +1,16 @@
-<h1>Login</h1>
-{{erro}}
-<form method="POST" action="/login">
-    <input type="text" name="campoUsuario">
-    <input type="password" name="campoSenha">
-    <button>Entrar</button>
+{% extends 'layout.html' %}
+
+{% block login %}
+<div class='flash'>
+    {{erro}}
+</div>
+
+<form action="{{url_for('login')}}" method="POST" class='ins-entrada'>
+    <dl>
+        <dt><dd>username: <input type="text" size="15" name="campoUsuario"></dd>
+            <dd>password: <input type="password" size="15" name="campoSenha"></dd>
+            <dd><input type="submit" value="Entrar"></dd>
+        </dt>
+    </dl>
 </form>
+{% endblock %}

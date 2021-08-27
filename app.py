@@ -22,6 +22,8 @@ def depois_request(exc):
 @app.route('/')
 @app.route('/entradas')
 def exibir_entradas():
+    if not session.get('logado'):
+        return redirect('/login')
     #return "<h1>Aqui estarão as postagens!!</h1>"
     #return render_template('exibir_entradas.html', mensagem="Olá pessoas!", img="https://image.freepik.com/fotos-gratis/imagem-aproximada-em-tons-de-cinza-de-uma-aguia-careca-americana-em-um-fundo-escuro_181624-31795.jpg")
     sql = "SELECT titulo, texto FROM entradas order by id DESC"
@@ -50,14 +52,15 @@ def inserir_entrada():
 @app.route('/logout')
 def logout():
     session.pop('logado', None)
-    return redirect(url_for('exibir_entradas'))
+    #return redirect(url_for('exibir_entradas'))
+    return redirect('/login')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
-    erro = None
+    erro = "Hello World!"
     if request.method == "POST":
         if request.form['campoUsuario'] != 'admin' \
-            and request.form['campoSenha'] != 'admin':
+        or request.form['campoSenha'] != 'admin':
             erro = "Senha ou Usuário Inválidos"
         else:
             session['logado'] = True
